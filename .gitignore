@@ -1,3 +1,2 @@
-i3wl-client
-i3wl-server
-obj/*
+build/*
+bin/*
