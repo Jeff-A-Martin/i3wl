@@ -5,7 +5,7 @@
 
 namespace i3wl {
 
-bool ActionHide::execute(std::string args[]){
+bool ActionHide::execute(std::vector<std::string> args){
     std::cout << "ACTION HIDE RAN\n"; 
     return false;
 }

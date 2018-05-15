@@ -15,7 +15,7 @@ namespace i3wl {
 
         public:
             ActionHide(){ this->id = "hide"; }
-            bool execute(std::string args[]);
+            bool execute(std::vector<std::string> args);
 
     }; // class ActionHide
 

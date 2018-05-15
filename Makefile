@@ -38,12 +38,14 @@ $(MESSAGE_BUILD)/Message.o: $(MESSAGE_SRC)/Message.cc $(MESSAGE_SRC)/Message.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/Message.cc -o $(MESSAGE_BUILD)/Message.o
 $(MESSAGE_BUILD)/Messenger.o: $(MESSAGE_SRC)/Messenger.cc $(MESSAGE_SRC)/Message.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/Messenger.cc -o $(MESSAGE_BUILD)/Messenger.o
+$(MESSAGE_BUILD)/MessageParser.o: $(MESSAGE_SRC)/MessageParser.cc $(MESSAGE_SRC)/MessageParser.h
+	g++ $(FLAGS) -c $(MESSAGE_SRC)/MessageParser.cc -o $(MESSAGE_BUILD)/MessageParser.o
 $(MESSAGE_BUILD)/TestReceive.o: $(MESSAGE_SRC)/TestReceive.cc $(MESSAGE_SRC)/Message.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/TestReceive.cc -o $(MESSAGE_BUILD)/TestReceive.o
 $(BIN)/i3wl-msg: $(MESSAGE_BUILD)/Messenger.o $(MESSAGE_BUILD)/Message.o
 	g++ $(MESSAGE_BUILD)/Messenger.o $(MESSAGE_BUILD)/Message.o -o $(BIN)/i3wl-msg
-$(TEST_BIN)/i3-msg-receive: $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o
-	g++ $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o -o $(TEST_BIN)/i3wl-msg-receive
+$(TEST_BIN)/i3-msg-receive: $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o $(MESSAGE_BUILD)/MessageParser.o
+	g++ $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o $(MESSAGE_BUILD)/MessageParser.o -o $(TEST_BIN)/i3wl-msg-receive
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 # Directories
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~

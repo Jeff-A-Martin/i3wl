@@ -5,7 +5,7 @@
 
 namespace i3wl {
 
-bool ActionSelect::execute(std::string args[]){
+bool ActionSelect::execute(std::vector<std::string> args){
     std::cout << "ACTION SELECT RAN\n"; 
     return false;
 }

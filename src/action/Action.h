@@ -2,6 +2,7 @@
 #define I3WL_ACTION_ACTION
 
 #include <string>
+#include <vector> 
 
 namespace i3wl {
     
@@ -29,7 +30,7 @@ namespace i3wl {
              * @return True if the execution of this action was successful, 
              * False otherwise.
              */
-            virtual bool execute(std::string args[]) = 0;
+            virtual bool execute(std::vector<std::string> args) = 0;
 
     }; // class Action
 

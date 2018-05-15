@@ -19,7 +19,7 @@ namespace i3wl {
 
         public:
             ActionSelect(){ this->id = "select"; }
-            bool execute(std::string args[]);
+            bool execute(std::vector<std::string> args);
 
     }; // class ActionSelect
 

@@ -15,7 +15,7 @@ namespace i3wl {
 
         public:
             ActionShow(){ this->id = "show"; }
-            bool execute(std::string args[]);
+            bool execute(std::vector<std::string> args);
 
     }; // class ActionShow
 
