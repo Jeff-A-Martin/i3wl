@@ -2,7 +2,6 @@
 ROOT_SRC = src
 ROOT_BUILD = build
 BIN = bin
-TEST_BIN = $(BIN)/test
 
 # Define the Compilation Flags
 # 1. Include the Root Source Directory
@@ -38,34 +37,48 @@ $(MESSAGE_BUILD)/Message.o: $(MESSAGE_SRC)/Message.cc $(MESSAGE_SRC)/Message.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/Message.cc -o $(MESSAGE_BUILD)/Message.o
 $(MESSAGE_BUILD)/Messenger.o: $(MESSAGE_SRC)/Messenger.cc $(MESSAGE_SRC)/Message.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/Messenger.cc -o $(MESSAGE_BUILD)/Messenger.o
-$(MESSAGE_BUILD)/MessageParser.o: $(MESSAGE_SRC)/MessageParser.cc $(MESSAGE_SRC)/MessageParser.h
+$(MESSAGE_BUILD)/MessageParser.o: $(MESSAGE_SRC)/MessageParser.cc \
+    $(MESSAGE_SRC)/MessageParser.h
 	g++ $(FLAGS) -c $(MESSAGE_SRC)/MessageParser.cc -o $(MESSAGE_BUILD)/MessageParser.o
-$(MESSAGE_BUILD)/TestReceive.o: $(MESSAGE_SRC)/TestReceive.cc $(MESSAGE_SRC)/Message.h
-	g++ $(FLAGS) -c $(MESSAGE_SRC)/TestReceive.cc -o $(MESSAGE_BUILD)/TestReceive.o
 $(BIN)/i3wl-msg: $(MESSAGE_BUILD)/Messenger.o $(MESSAGE_BUILD)/Message.o
 	g++ $(MESSAGE_BUILD)/Messenger.o $(MESSAGE_BUILD)/Message.o -o $(BIN)/i3wl-msg
-$(TEST_BIN)/i3-msg-receive: $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o $(MESSAGE_BUILD)/MessageParser.o
-	g++ $(MESSAGE_BUILD)/TestReceive.o $(MESSAGE_BUILD)/Message.o $(MESSAGE_BUILD)/MessageParser.o -o $(TEST_BIN)/i3wl-msg-receive
+
+# ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
+# Package: Core
+# ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
+CORE_SRC = $(ROOT_SRC)/core
+CORE_BUILD = $(ROOT_BUILD)/core
+$(CORE_BUILD)/i3wl.o: $(CORE_SRC)/i3wl.cc $(MESSAGE_SRC)/Message.h \
+    $(MESSAGE_SRC)/MessageParser.h $(ACTION_SRC)/Action.h $(ACTION_SRC)/ActionRegistry.h
+	g++ $(FLAGS) -c $(CORE_SRC)/i3wl.cc -o $(CORE_BUILD)/i3wl.o
+$(BIN)/i3wl: $(CORE_BUILD)/i3wl.o $(MESSAGE_BUILD)/Message.o \
+    $(MESSAGE_BUILD)/MessageParser.o $(ACTION_BUILD)/ActionRegistry.o \
+    $(ACTION_BUILD)/ActionShow.o $(ACTION_BUILD)/ActionHide.o $(ACTION_BUILD)/ActionSelect.o
+	g++ $(FLAGS) $(CORE_BUILD)/i3wl.o $(MESSAGE_BUILD)/Message.o \
+	    $(MESSAGE_BUILD)/MessageParser.o $(ACTION_BUILD)/ActionRegistry.o \
+	    $(ACTION_BUILD)/ActionShow.o $(ACTION_BUILD)/ActionHide.o \
+	    $(ACTION_BUILD)/ActionSelect.o -o $(BIN)/i3wl
+
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 # Directories
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 directories: 
 	mkdir -p $(ROOT_BUILD)
 	mkdir -p $(BIN)
-	mkdir -p $(TEST_BIN)
 	mkdir -p $(ACTION_BUILD)
 	mkdir -p $(MESSAGE_BUILD)
+	mkdir -p $(CORE_BUILD)
 
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 # Build
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
-binaries = $(BIN)/i3wl-msg
-test_binaries = $(TEST_BIN)/i3-msg-receive
-build: directories $(binaries) $(test_binaries) \
+binaries = $(BIN)/i3wl-msg $(BIN)/i3wl
+build: directories $(binaries) \
     $(ACTION_BUILD)/ActionShow.o $(ACTION_BUILD)/ActionHide.o \
     $(ACTION_BUILD)/ActionSelect.o $(ACTION_BUILD)/ActionRegistry.o 
+
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 # Clean
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 clean: 
-	rm -r -f $(ROOT_BUILD) $(ROOT_BIN)
+	rm -r -f $(ROOT_BUILD) $(BIN)
