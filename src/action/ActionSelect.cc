@@ -10,4 +10,4 @@ bool ActionSelect::execute(std::vector<std::string> args){
     return false;
 }
 
-} // namespace i3wl
+}; // namespace i3wl

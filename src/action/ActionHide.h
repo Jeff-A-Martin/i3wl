@@ -6,18 +6,19 @@
 #include "action/Action.h"
 
 namespace i3wl {
-    /**
-     * Class: ActionHide
-     * The class used to represent the 'hide' action. This action toggles the
-     * I3WL display off for the user.
-     */
-    class ActionHide: public Action {
 
-        public:
-            ActionHide(){ this->id = "hide"; }
-            bool execute(std::vector<std::string> args);
+/**
+ * Class: ActionHide
+ * The class used to represent the 'hide' action. This action toggles the
+ * I3WL display off for the user.
+ */
+class ActionHide: public Action {
 
-    }; // class ActionHide
+    public:
+        ActionHide(){ this->id = "hide"; }
+        bool execute(std::vector<std::string> args);
+
+}; // class ActionHide
 
 }; // namespace i3wl
 

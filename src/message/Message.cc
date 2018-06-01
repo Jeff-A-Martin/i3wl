@@ -7,11 +7,12 @@
 #include <sys/socket.h>
 #include <string>
 
-namespace i3wl{
+namespace i3wl {
 
 const int Message::PORT = 9002;
 const unsigned int Message::MAX_MSG_SIZE = 256;
 const char Message::DELIMINATOR = ' ';
+
 int Message::createSocket(){
     return socket(AF_INET, SOCK_STREAM, 0);
 }

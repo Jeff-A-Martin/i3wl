@@ -48,13 +48,13 @@ $(BIN)/i3wl-msg: $(MESSAGE_BUILD)/Messenger.o $(MESSAGE_BUILD)/Message.o
 # ~~~~~ ~~~~~ ~~~~~ ~~~~~ ~~~~~
 CORE_SRC = $(ROOT_SRC)/core
 CORE_BUILD = $(ROOT_BUILD)/core
-$(CORE_BUILD)/i3wl.o: $(CORE_SRC)/i3wl.cc $(MESSAGE_SRC)/Message.h \
+$(CORE_BUILD)/I3WL.o: $(CORE_SRC)/I3WL.cc $(MESSAGE_SRC)/Message.h \
     $(MESSAGE_SRC)/MessageParser.h $(ACTION_SRC)/Action.h $(ACTION_SRC)/ActionRegistry.h
-	g++ $(FLAGS) -c $(CORE_SRC)/i3wl.cc -o $(CORE_BUILD)/i3wl.o
-$(BIN)/i3wl: $(CORE_BUILD)/i3wl.o $(MESSAGE_BUILD)/Message.o \
+	g++ $(FLAGS) -c $(CORE_SRC)/I3WL.cc -o $(CORE_BUILD)/I3WL.o
+$(BIN)/i3wl: $(CORE_BUILD)/I3WL.o $(MESSAGE_BUILD)/Message.o \
     $(MESSAGE_BUILD)/MessageParser.o $(ACTION_BUILD)/ActionRegistry.o \
     $(ACTION_BUILD)/ActionShow.o $(ACTION_BUILD)/ActionHide.o $(ACTION_BUILD)/ActionSelect.o
-	g++ $(FLAGS) $(CORE_BUILD)/i3wl.o $(MESSAGE_BUILD)/Message.o \
+	g++ $(FLAGS) $(CORE_BUILD)/I3WL.o $(MESSAGE_BUILD)/Message.o \
 	    $(MESSAGE_BUILD)/MessageParser.o $(ACTION_BUILD)/ActionRegistry.o \
 	    $(ACTION_BUILD)/ActionShow.o $(ACTION_BUILD)/ActionHide.o \
 	    $(ACTION_BUILD)/ActionSelect.o -o $(BIN)/i3wl
